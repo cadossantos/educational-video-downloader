@@ -1,69 +1,109 @@
-🎓 Educational Video Downloader
-(Selenium • BeautifulSoup • M3U8 • FFmpeg)
+# 🎓 Educational Video Downloader
 
-Um projeto que começou como solução improvisada e virou um laboratório completo de automação web e manipulação de mídia — feito com Python e teimosia.
+**Automacao com Selenium • Engenharia reversa de `.m3u8` • Manipulacao de mídia com FFmpeg**
 
-✨ Motivação
-Quando a assinatura de uma plataforma educacional estava prestes a vencer (e eu, ainda desempregado, sem condições de renovar), decidi criar esta ferramenta para garantir que meus estudos continuassem. A plataforma permitia acesso via login, mas não oferecia downloads dos vídeos, para ter acesso completo, o plano vitalício custa aproximadamente 4x o valor do meu acesso anual :(
+Este projeto nasceu como uma solução improvisada e se transformou em um laboratório completo de automação web, raspagem de conteúdo e manipulação de vídeos — tudo feito com **Python** (e bastante teimosia).
 
-O resultado? Duas semanas de experimentos com Selenium, engenharia reversa de streams M3U8 e concatenação com FFmpeg — agora organizado neste repositório como um projeto modular e reutilizável.
+---
 
-Sim, foi tanto aprendizado técnico quanto ato de resistência.
+## ✨ Motivação
 
-⚙️ Tecnologias
-Python 3.11 (com type hints onde possível)
+Quando minha assinatura de uma plataforma educacional estava prestes a vencer (e eu sem condições de renovar), decidi criar esta ferramenta para garantir que meus estudos não fossem interrompidos. A plataforma exigia login, mas não oferecia download dos vídeos — e o plano vitalício custava 4x o valor da assinatura anual.
 
-Selenium para automação do login
+O resultado? Duas semanas de experimentos com:
 
-BeautifulSoup para extração de metadados
+- Selenium para automação de login
+- Engenharia reversa de players `.m3u8`
+- FFmpeg para concatenação de vídeos
+- Logging, modularização e persistência de sessão com cookies
 
-Requests + FFmpeg para download/concatenação de vídeos
+Este repositório é o produto final, com estrutura reutilizável e código comentado.
 
-Tqdm para progress bars no terminal
+> 💡 Foi tanto um aprendizado técnico quanto um ato de resistência.
 
-Markdownify para salvar aulas em texto quando vídeo não está disponível
+---
 
-📦 Estrutura
-bash
+## ⚙️ Tecnologias Utilizadas
+
+- **Python 3.11** (com _type hints_ onde possível)
+- `Selenium` + `webdriver-manager` — login automatizado
+- `BeautifulSoup` — parsing de HTML para extrair metadados
+- `Requests` — acesso a páginas e streams
+- `FFmpeg` — download e concatenação dos segmentos `.ts`
+- `Tqdm` — barra de progresso no terminal
+- `Markdownify` — fallback para salvar aulas como `.md` se não houver vídeo
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
 .
-├── main.py                      # Ponto de entrada
-├── downloader/                  # Módulos especializados
-│   ├── auth.py                  # Gestão de sessão (cookies via Pickle)
-│   ├── extract_m3u8.py          # Extração da melhor qualidade de stream
-│   ├── video_downloader.py      # Pipeline de download/concatenação
-│   └── ...                      # [+4 módulos organizados]
-├── downloads/                   # Saída de vídeos e markdowns
-└── .config/                     # Dados sensíveis (gitignorados)
-🚀 Como Usar
-Instale as dependências:
+├── main.py                      # Ponto de entrada com menu CLI
+├── downloader/                  # Pacote com módulos especializados
+│   ├── auth.py                  # Login e gestão de sessão
+│   ├── extract_m3u8.py          # Extração da melhor stream de vídeo
+│   ├── lessons.py               # Lógica para baixar aulas e cursos
+│   ├── parser.py                # Extração de iframe e título
+│   ├── utils.py                 # Funções auxiliares (ex: sanitização de nomes)
+│   └── video_downloader.py      # Download segmentado + concatenação
+├── downloads/                   # Pasta padrão de saída
+├── .config/                     # Sessão salva com cookies (gitignorada)
+└── requirements.txt             # Dependências
+```
 
-bash
+---
+
+## 🚀 Como Usar
+
+1. **Instale as dependências:**
+
+```bash
 pip install -r requirements.txt
-# FFmpeg separadamente (apt/brew/choco)
+# Certifique-se também de que o FFmpeg está instalado no sistema:
+# Linux: sudo apt install ffmpeg
+# MacOS: brew install ffmpeg
+# Windows: choco install ffmpeg
+```
 
-Execute:
+2. **Execute o script principal:**
 
-bash
+```bash
 python main.py
+```
 
-No seu primeiro acesso, vai ser solicitado login e senha. esses dados ficam salvos em config.json com credenciais válidas para sessões futuras <nota>você pode melhorar isso com bcrypt se desejar</nota> (só você tem acesso!).
+- Você será solicitado a informar seu e-mail e senha da plataforma.
+- Os dados de sessão serão salvos localmente (`.config/`) se desejar.
+- Escolha uma das opções:
+  - Baixar aula única
+  - Baixar lista de aulas
+  - Baixar curso completo
 
-Escolha no menu entre:
-▶ Aula única | ▶ Lista de aulas | ▶ Curso completo
+---
 
-🧠 Arquitetura & Lições
-Evolução: Começou como script monolítico e foi sendo modularizado conforme a complexidade crescia.
+## 🧐 Lições e Arquitetura
 
-Próximos passos:
+- **Evolução:** Começou como script monolítico → evoluiu para arquitetura modular
+- **Foco:** MVP funcional rápido, com espaço para melhorias incrementais
+- **Organização:** Separação clara entre automação (login), extração (parser) e manipulação de vídeo (download)
 
-Migrar get_course_page para fetcher.py
+---
 
-Decidir se a CLI principal deve ser refatorada
+## ⚠️ Aviso Legal
 
-Filosofia: Priorizei ter um MVP funcional rápido, mas mantendo o código adaptável para melhorias incrementais.
+Este projeto **não contorna DRM**, não acessa conteúdo protegido indevidamente e **não deve ser usado para violar os termos de uso de nenhuma plataforma**.
 
-⚠️ Aviso Legal
-Este projeto não viola DRM — apenas automatiza acesso legítimo via login. Use-o apenas para conteúdo que você tem direito de acessar, e sempre respeite os termos das plataformas. (Responsabilidade é sua.)
+Use-o apenas para baixar conteúdos **aos quais você tem acesso legítimo**.
 
-📩 Contato
-Se você também está reinventando sua carreira através de código, vamos conversar! Me encontre no LinkedIn ou comente no post sobre o projeto.
+Você é responsável por como utiliza este código.
+
+---
+
+## 📬 Contato
+
+Se você também está reinventando sua carreira com código, automação e IA, vamos trocar ideias!
+
+Me chama no [LinkedIn](https://linkedin.com/) ou deixe um comentário no post sobre este projeto.
+
+---
+
