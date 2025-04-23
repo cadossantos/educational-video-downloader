@@ -103,7 +103,7 @@ Você é responsável por como utiliza este código.
 
 Se você também está reinventando sua carreira com código, automação e IA, vamos trocar ideias!
 
-Me chama no [LinkedIn](https://linkedin.com/) ou deixe um comentário no post sobre este projeto.
+Me chama no [LinkedIn](https://www.linkedin.com/in/cadossantos/) ou deixe um comentário no post sobre este projeto.
 
 ---
 
